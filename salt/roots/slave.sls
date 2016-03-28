@@ -42,3 +42,17 @@ mesos-slave:
     - require:
       - pkg: mesos
 
+/etc/resolv.conf:
+  file.managed:
+    - source: salt://resolv.conf
+
+chattr_resolv:
+  cmd.run:
+    - name: /srv/salt/resolv.sh
+    - user: root
+    - group: root
+    - require:
+      - file: /etc/resolv.conf
+    - watch:
+      - file: /etc/resolv.conf
+
